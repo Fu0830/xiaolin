@@ -97,8 +97,8 @@ button{font-family:inherit;cursor:pointer}
 @media(max-width:640px){.nav{display:none}}
 
 /* ============ 通用区块 ============ */
-.wrap{max-width:960px;margin:0 auto;padding:0 22px}
-.section{padding:72px 0 24px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 clamp(34px,6vw,86px)}
+.section{padding-block:72px 24px}
 .eyebrow{font-size:12px;letter-spacing:.4em;color:var(--ink-faint);margin-bottom:12px}
 .section-title{font-size:clamp(24px,4vw,32px);font-weight:600;letter-spacing:.22em;margin-bottom:12px}
 .section-sub{color:var(--ink-soft);font-size:14px;letter-spacing:.05em;max-width:520px}
@@ -113,8 +113,8 @@ button{font-family:inherit;cursor:pointer}
 .hero-quote{margin-top:22px;padding:18px 22px;border-left:2px solid var(--accent-2);color:var(--ink-soft);font-style:italic}
 
 /* ============ 关键词选择 ============ */
-.keyword-board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
-@media(max-width:640px){.keyword-board{grid-template-columns:repeat(2,1fr)}}
+.keyword-board{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px}
+@media(max-width:560px){.keyword-board{grid-template-columns:repeat(2,1fr);gap:10px}}
 .kw-card{
   border:1px solid var(--line);background:var(--card);border-radius:12px;padding:22px 18px;
   text-align:center;transition:all .3s;position:relative;
@@ -127,15 +127,14 @@ button{font-family:inherit;cursor:pointer}
 .kw-tip{margin-top:18px;font-size:13px;color:var(--ink-faint)}
 
 /* ============ 人物设定（原购物环节） ============ */
-.craft-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:760px){.craft-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.craft-grid{grid-template-columns:1fr}}
+.craft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:640px){.craft-grid{grid-template-columns:1fr}}
 .craft-card{
   background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
   transition:transform .3s,box-shadow .3s;
 }
 .craft-card:hover{transform:translateY(-4px);box-shadow:var(--card-shadow)}
-.craft-art{height:120px;display:flex;align-items:center;justify-content:center;font-size:34px;background:var(--book-bg)}
+.craft-art{height:84px;display:flex;align-items:center;justify-content:center;font-size:34px;background:var(--book-bg)}
 .craft-body{padding:18px}
 .craft-name{font-size:16px;letter-spacing:.1em;margin-bottom:6px}
 .craft-en{font-size:11px;letter-spacing:.25em;color:var(--ink-faint);margin-bottom:10px}
@@ -148,7 +147,7 @@ button{font-family:inherit;cursor:pointer}
 }
 .craft-add:hover{border-color:var(--accent);color:var(--ink)}
 .craft-add.added{border-color:var(--like);color:var(--like)}
-.craft-art svg{width:44px;height:44px}
+.craft-art svg{width:34px;height:34px}
 
 /* ============ 个人须知 ============ */
 .idcard{
@@ -178,8 +177,9 @@ button{font-family:inherit;cursor:pointer}
 .gallery-tabs{display:flex;gap:10px;margin-bottom:26px;flex-wrap:wrap}
 .gtab{border:1px solid var(--line);background:transparent;color:var(--ink-soft);padding:9px 20px;border-radius:99px;font-size:13px;letter-spacing:.15em;transition:all .3s}
 .gtab.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-@media(max-width:760px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.gallery-grid[data-count="3"]{grid-template-columns:repeat(3,1fr)}
+@media(max-width:760px){.gallery-grid,.gallery-grid[data-count="3"]{grid-template-columns:repeat(2,1fr)}}
 .g-item{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--card);aspect-ratio:1;cursor:zoom-in}
 .g-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .g-item:hover img{transform:scale(1.06)}
@@ -224,31 +224,64 @@ button{font-family:inherit;cursor:pointer}
 .note-card .note-img img{width:100%;object-fit:cover}
 .note-empty{color:var(--ink-faint);font-size:13px;text-align:center;padding:30px 0}
 
-/* ============ 船票结尾 ============ */
-.ticket-section{padding:80px 0 60px}
-.ticket-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
-@media(max-width:760px){.ticket-wrap{grid-template-columns:1fr}}
-.ticket{
-  position:relative;background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:30px 28px;
+/* ============ 船票结尾（票据打印机） ============ */
+.ticket-section{padding-block:80px 70px}
+.printer-wrap{max-width:520px;margin:0 auto}
+.printer{
+  position:relative;padding:14px 14px 0;
+  background:linear-gradient(165deg,var(--paper-2),var(--card) 72%,var(--paper));
+  border:1px solid var(--line);
+  border-radius:20px 20px 10px 10px;
+  box-shadow:0 8px 0 var(--line-soft),0 18px 34px rgba(60,80,110,.12);
 }
-.ticket::before,.ticket::after{
-  content:"";position:absolute;top:50%;width:26px;height:26px;border-radius:50%;background:var(--paper);border:1px solid var(--line);
+[data-theme="night"] .printer{box-shadow:0 8px 0 #1a2130,0 18px 34px rgba(0,0,0,.4)}
+.printer-top{display:flex;align-items:center;gap:8px;padding:0 4px 10px;font-size:11px;letter-spacing:.24em;color:var(--ink-faint)}
+.printer-led{width:7px;height:7px;border-radius:50%;background:var(--like);box-shadow:0 0 9px color-mix(in srgb,var(--like) 70%,transparent)}
+.printer-slot{height:7px;margin:0 6px;border-radius:3px;background:linear-gradient(180deg,var(--ink-faint),var(--line));box-shadow:inset 0 2px 4px rgba(0,0,0,.28)}
+
+.receipt-roll{max-height:0;overflow:hidden;transition:max-height 1.2s cubic-bezier(.22,.9,.3,1)}
+.receipt-roll.printed{max-height:2200px}
+.receipt{
+  position:relative;margin:0 auto;width:100%;max-width:360px;padding:22px 18px 34px;
+  background:#fffdf7;color:#31394a;
+  font-family:"Courier New","PingFang SC",ui-monospace,monospace;
+  font-size:11px;line-height:1.8;
+  box-shadow:0 8px 22px rgba(45,60,85,.16);
+  background-image:repeating-linear-gradient(180deg,transparent 0 27px,rgba(120,135,155,.11) 27px 28px);
 }
-.ticket::before{left:-14px;transform:translateY(-50%)}
-.ticket::after{right:-14px;transform:translateY(-50%)}
-.ticket-brand{text-align:center;letter-spacing:.4em;font-size:13px;color:var(--ink-faint);margin-bottom:6px}
-.ticket-title{text-align:center;font-size:22px;letter-spacing:.25em;margin-bottom:20px}
-.ticket-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;color:var(--ink-soft);padding:10px 0;border-bottom:1px dotted var(--line-soft)}
-.ticket-row b{color:var(--ink);font-weight:600;text-align:right;max-width:62%}
-.ticket-note{margin-top:20px;text-align:center;font-size:14px;line-height:2;color:var(--ink-soft)}
-.ticket-no{margin-top:14px;text-align:center;font-size:11px;letter-spacing:.3em;color:var(--ink-faint)}
-.ticket-side img{border-radius:14px;box-shadow:var(--card-shadow)}
-.ticket-actions{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+.receipt.torn{transform:translateY(-26px) rotate(-3.5deg);opacity:0;transition:transform .6s ease,opacity .6s ease}
+.rc-brand{text-align:center;font-size:13px;letter-spacing:.24em;font-weight:700}
+.rc-cn{text-align:center;font-size:9px;letter-spacing:.18em;color:#8590a0;margin-bottom:14px}
+.rc-meta{border-top:1px dashed #c6cdd8;border-bottom:1px dashed #c6cdd8;padding:6px 0;margin-bottom:8px}
+.rc-meta p,.rc-pay p{display:flex;justify-content:space-between;gap:10px;margin:2px 0;font-size:10px}
+.rc-meta span,.rc-pay span{color:#8590a0}
+.rc-meta b,.rc-pay b{font-weight:400;text-align:right}
+.rc-items{padding:4px 0}
+.rc-item{display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:10.5px}
+.rc-item span:first-child{flex:1;word-break:break-word}
+.rc-item span:last-child{color:#8590a0;white-space:nowrap}
+.rc-empty{text-align:center;color:#8590a0;padding:10px 0;font-size:10px}
+.rc-total{display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 6px;padding-top:8px;border-top:1px dashed #c6cdd8;font-size:11px}
+.rc-total b{font-size:13px}
+.rc-note{
+  margin:12px 0 14px;padding:9px 10px;border:1px dashed #cbd3de;border-radius:4px;
+  font-family:var(--hand,inherit);font-size:12px;line-height:1.9;color:#3c4b63;background:#fbfdff;transform:rotate(-.4deg);
+}
+.rc-note::before{content:"手记";display:block;font-family:inherit;font-size:8px;letter-spacing:.24em;color:#96a2b1;margin-bottom:4px}
+.rc-barcode{height:32px;margin:0 10px;opacity:.85;background:repeating-linear-gradient(90deg,#31394a 0 2px,transparent 2px 4px,#31394a 4px 7px,transparent 7px 9px,#31394a 9px 10px,transparent 10px 14px)}
+.rc-num{text-align:center;font-size:8.5px;letter-spacing:.18em;color:#78838f;margin-top:5px}
+.rc-seal{
+  position:absolute;right:10px;bottom:46px;width:56px;height:56px;display:grid;place-items:center;
+  border:2px solid rgba(180,96,104,.5);border-radius:50%;color:rgba(180,96,104,.72);
+  font-family:var(--hand,inherit);font-size:14px;letter-spacing:.08em;transform:rotate(-15deg);
+}
+.ticket-actions{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.ticket-tip{margin-top:14px;text-align:center;font-size:12px;color:var(--ink-faint);letter-spacing:.06em}
 .cta-btn{border:none;background:var(--ink);color:var(--paper);padding:12px 28px;border-radius:10px;letter-spacing:.2em;font-size:14px}
 .ghost-btn{border:1px solid var(--line);background:transparent;color:var(--ink-soft);padding:12px 24px;border-radius:10px;letter-spacing:.15em;font-size:13px;text-decoration:none}
 
 /* 页脚 */
-.site-foot{padding:40px 22px 50px;text-align:center;color:var(--ink-faint);font-size:12px;letter-spacing:.15em;line-height:2}
+.site-foot{padding:40px clamp(34px,6vw,86px) 50px;text-align:center;color:var(--ink-faint);font-size:12px;letter-spacing:.15em;line-height:2}
 
 /* 灯箱放大与 toast */
 .toast{
@@ -416,23 +449,39 @@ button{font-family:inherit;cursor:pointer}
 
   <!-- 船票结尾 -->
   <section class="section wrap ticket-section" id="ticket">
-    <div class="ticket-wrap">
-      <div class="ticket rise" id="ticketCard">
-        <div class="ticket-brand">DREAM VOYAGE · 梦 境 航 线</div>
-        <div class="ticket-title">通 往 小 林 的 世 界</div>
-        <div class="ticket-row"><span>入梦关键词</span><b id="ticketKw">尚未拾取</b></div>
-        <div class="ticket-row"><span>作者添入角色之物</span><b id="ticketCraft">尚未拣选</b></div>
-        <div class="ticket-row"><span>航程</span><b>今夜 · 无归期</b></div>
-        <p class="ticket-note">这是一场幻梦，<br>但梦醒时，你手里仍有这张船票。</p>
-        <div class="ticket-no" id="ticketNo">DREAM-0000-0000</div>
-      </div>
-      <div class="ticket-side rise">
-        <img src="./gift-ticket.jpg" alt="旧船票与铃兰">
-        <div class="ticket-actions">
-          <button class="cta-btn" id="ticketBtn">印制这张船票</button>
-          <a class="ghost-btn" href="#top">回到开篇</a>
+    <div class="section-head rise">
+      <p class="eyebrow">CHAPTER SIX · 票据</p>
+      <h2 class="section-title">在梦境码头，印一张船票</h2>
+      <p class="section-sub">把拾起的词、与作者添进角色身上的东西一并打上去。这一张只印一次，收好。</p>
+    </div>
+
+    <div class="printer-wrap rise">
+      <div class="printer">
+        <div class="printer-top"><span class="printer-led" aria-hidden="true"></span>XIAOLIN · 梦境售票处</div>
+        <div class="printer-slot" aria-hidden="true"></div>
+        <div class="receipt-roll" id="receiptRoll">
+          <div class="receipt" id="receipt">
+            <div class="rc-brand">DREAM VOYAGE</div>
+            <div class="rc-cn">小林的世界 · 登船凭证</div>
+            <div class="rc-meta">
+              <p><span>日期</span><b id="rcDate">—</b></p>
+              <p><span>单号</span><b id="ticketNo">DREAM-0000-0000</b></p>
+              <p><span>登船口</span><b>书页第三折</b></p>
+            </div>
+            <div class="rc-items" id="rcItems"></div>
+            <div class="rc-total"><span>航程</span><b>今夜 · 无归期</b></div>
+            <p class="rc-note">这是一场幻梦。但梦醒时，你手里仍有这张船票。</p>
+            <div class="rc-barcode" aria-hidden="true"></div>
+            <div class="rc-num" id="rcNum">—</div>
+            <div class="rc-seal">小林</div>
+          </div>
         </div>
       </div>
+      <div class="ticket-actions">
+        <button class="cta-btn" id="ticketBtn">印 制 船 票</button>
+        <a class="ghost-btn" href="#top">回到开篇</a>
+      </div>
+      <p class="ticket-tip" id="ticketTip">票据还空着，先去拾几枚词、拣几件添入之物。</p>
     </div>
   </section>
 
@@ -460,7 +509,11 @@ const KEYWORDS = [
   { cn: "雾港", en: "MISTY PORT", desc: "船还未靠岸，故事先在雾里生长。" },
   { cn: "星屑", en: "STAR DUST", desc: "坠落时碎成满地的细小光亮。" },
   { cn: "白帆", en: "WHITE SAIL", desc: "向着不确定的远方，仍肯扬起。" },
-  { cn: "长夜", en: "LONG NIGHT", desc: "安静地陪着，等天亮也等结局。" }
+  { cn: "长夜", en: "LONG NIGHT", desc: "安静地陪着，等天亮也等结局。" },
+  { cn: "薄雪", en: "FIRST SNOW", desc: "第一场雪落在未写完的那一页上。" },
+  { cn: "灯河", en: "LANTERN RIVER", desc: "灯一盏盏漂走，替人把话带到下游。" },
+  { cn: "空座", en: "EMPTY SEAT", desc: "留着一把椅子，等一个还没出场的人。" },
+  { cn: "残页", en: "TORN PAGE", desc: "被撕去的那半页，才是故事真正的开头。" }
 ];
 
 const CRAFTS = [
@@ -468,8 +521,12 @@ const CRAFTS = [
   { name: "护短的立场", en: "LOYAL SIDE", color: "#b8a6d6", desc: "受了委屈便第一时间站回去，先撑腰，再慢慢讲道理。", meta: ["当即回应", "事后安抚"] },
   { name: "慷慨的退让", en: "GENEROSITY", color: "#d8b98a", desc: "愿意让蓝、让龙，陪你把牌子一点点刷上来，不吝付出。", meta: ["主动让位", "并肩上分"] },
   { name: "留心的目光", en: "ATTENTIVE EYE", color: "#6fa8a0", desc: "留意你的动向，在合适的时候轻声提示下一步，只提醒，不指挥。", meta: ["观察细节", "语气克制"] },
-  { name: "真诚的谢礼", en: "SINCERE THANKS", color: "#c98a9e", desc: "道谢与回礼都落在实处，不走套路，不套模板。", meta: ["心意具体", "拒绝敷衍"] },
-  { name: "利落的身影", en: "SUAVE HERO", color: "#8a7fb8", desc: "同行时偏爱拿得出场面的英雄，镜、澜、公孙离一类，操作利落好看。", meta: ["镜", "澜", "公孙离"] }
+  { name: "真诚的谢礼", en: "SINCERE THANKS", color: "#c98a9e", desc: "道谢与回礼都落在实处，不走套路，也不套现成的模板。", meta: ["心意具体", "拒绝敷衍"] },
+  { name: "利落的身影", en: "SUAVE HERO", color: "#8a7fb8", desc: "同行时偏爱拿得出场面的英雄，镜、澜、公孙离一类，操作利落好看。", meta: ["镜", "澜", "公孙离"] },
+  { name: "守时的习惯", en: "ON TIME", color: "#8fa9c4", desc: "约好的时辰从不迟到，连借用账号这类琐事也提前办妥，不叫你等。", meta: ["提前到", "不误点"] },
+  { name: "局内的呼应", en: "IN-STEP", color: "#9bb08f", desc: "整局里始终同你联动，失手时不甩锅，先把话说软，再把局扳回来。", meta: ["全程回应", "不甩锅"] },
+  { name: "恰当的分寸", en: "DISCRETION", color: "#cbb08f", desc: "称呼只叫名字，不带“板”，也不拿单字“姐”来应付，亲疏都有边界。", meta: ["称名不称板", "边界清楚"] },
+  { name: "不漏的记性", en: "REMEMBRANCE", color: "#a89bc0", desc: "记得你说过的小事，不混单、不记混老板，回头还能接上上次那半句话。", meta: ["记住旧话", "不混单"] }
 ];
 
 const LIKES = [
@@ -496,8 +553,7 @@ const GALLERY = [
   { cat: "film", src: "./mem-station.jpg", title: "暮色月台" },
   { cat: "gift", src: "./gift-letter.jpg", title: "未写完的信" },
   { cat: "gift", src: "./gift-star.jpg", title: "装星的瓶子" },
-  { cat: "gift", src: "./gift-book.jpg", title: "旧书与怀表" },
-  { cat: "gift", src: "./gift-ticket.jpg", title: "船票与铃兰" }
+  { cat: "gift", src: "./gift-book.jpg", title: "旧书与怀表" }
 ];
 
 /* ===== 状态 ===== */
@@ -592,7 +648,9 @@ function renderNotice(){
 let galleryCat = "film";
 function renderGallery(){
   const grid = $("#galleryGrid"); grid.innerHTML = "";
-  GALLERY.filter(g=>g.cat===galleryCat).forEach(g=>{
+  const list = GALLERY.filter(g=>g.cat===galleryCat);
+  grid.dataset.count = String(list.length);
+  list.forEach(g=>{
     const el = document.createElement("div");
     el.className = "g-item";
     el.innerHTML = `<img src="${g.src}" alt="${g.title}" loading="lazy">`;
@@ -677,16 +735,40 @@ $("#boardForm").addEventListener("submit", e=>{
   }
 });
 
-/* ===== 船票同步 ===== */
+/* ===== 船票：票据打印 ===== */
+function ticketLines(){
+  return {
+    kws: [...state.pickedKw].map(i=>KEYWORDS[i]),
+    crafts: [...state.pickedCraft].map(i=>CRAFTS[i])
+  };
+}
+function renderReceipt(){
+  const { kws, crafts } = ticketLines();
+  const rows = [];
+  kws.forEach(k=>rows.push(`<div class="rc-item"><span>入梦词 · ${k.cn}</span><span>×1</span></div>`));
+  crafts.forEach(c=>rows.push(`<div class="rc-item"><span>添入 · ${c.name}</span><span>×1</span></div>`));
+  $("#rcItems").innerHTML = rows.length
+    ? rows.join("")
+    : `<div class="rc-empty">票据背面空白，尚无一词落墨</div>`;
+}
 function syncTicket(){
-  const kws = [...state.pickedKw].map(i=>KEYWORDS[i].cn);
-  const crafts = [...state.pickedCraft].map(i=>CRAFTS[i].name);
-  $("#ticketKw").textContent = kws.length ? kws.join("、") : "尚未拾取";
-  $("#ticketCraft").textContent = crafts.length ? crafts.join("、") : "尚未拣选";
+  const { kws, crafts } = ticketLines();
+  const total = kws.length + crafts.length;
+  $("#ticketTip").textContent = total
+    ? `已备下 ${kws.length} 枚词、${crafts.length} 件添入之物，按下即可打印。`
+    : "票据还空着，先去拾几枚词、拣几件添入之物。";
+  if($("#receiptRoll").classList.contains("printed")) renderReceipt();
 }
 $("#ticketBtn").addEventListener("click", ()=>{
+  const { kws, crafts } = ticketLines();
+  if(!kws.length && !crafts.length){ toast("先拾一枚词，票据才有字"); return; }
+  const d = new Date();
+  $("#rcDate").textContent = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`;
   const no = "DREAM-" + String(Math.floor(1000+Math.random()*9000)) + "-" + String(Math.floor(100+Math.random()*900));
   $("#ticketNo").textContent = no;
+  $("#rcNum").textContent = no;
+  renderReceipt();
+  $("#receiptRoll").classList.add("printed");
   toast("船票已印妥，收好它");
 });
 
