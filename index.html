@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#eef2f7">
+<title>欢迎来到小林的世界</title>
+<meta name="description" content="一场书页翻动的梦境，走进小林笔下的小说世界。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23eef2f7'/><path d='M9 8h7a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H9z' fill='%237c93b8'/><path d='M23 8h-7a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h7z' fill='%23b8a6d6'/></svg>">
+<style>
+/* ============ 基础与昼夜令牌 ============ */
+:root{
+  --paper:#eef2f7; --paper-2:#f7f9fc; --ink:#2c3545; --ink-soft:#5d6a7e; --ink-faint:#8a97a9;
+  --line:#d9e1ec; --line-soft:#e6ecf3;
+  --accent:#7c93b8; --accent-2:#b8a6d6; --warm:#d8b98a;
+  --card:#ffffff; --card-shadow:0 10px 30px rgba(60,80,110,.10);
+  --tape:rgba(184,166,214,.28);
+  --like:#5e9b78; --hate:#c4726e;
+  --book-bg:linear-gradient(160deg,#f3f6fb,#e9eff7);
+  --overlay:rgba(44,53,69,.35);
+}
+[data-theme="night"]{
+  --paper:#151a26; --paper-2:#1c2231; --ink:#e8ecf4; --ink-soft:#b3bdcf; --ink-faint:#7f8ba0;
+  --line:#2c3547; --line-soft:#252d3d;
+  --accent:#9db4d8; --accent-2:#c9b8e6; --warm:#e0c493;
+  --card:#202737; --card-shadow:0 10px 30px rgba(0,0,0,.35);
+  --tape:rgba(201,184,230,.18);
+  --like:#8ecba6; --hate:#e89a96;
+  --book-bg:linear-gradient(160deg,#1a2030,#141927);
+  --overlay:rgba(0,0,0,.55);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+  background:var(--paper); color:var(--ink); line-height:1.8;
+  -webkit-font-smoothing:antialiased; transition:background .5s,color .5s;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+::selection{background:var(--accent-2);color:#fff}
+
+/* ============ 开场：书页翻动 ============ */
+.cover{
+  position:fixed; inset:0; z-index:100; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; padding:24px;
+  background:var(--book-bg); overflow:hidden; transition:opacity .9s ease, visibility .9s;
+}
+.cover.hide{opacity:0;visibility:hidden;pointer-events:none}
+.cover-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.55; mix-blend-mode:luminosity}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--overlay),transparent 30%,transparent 60%,var(--overlay))}
+.cover-inner{position:relative;z-index:2;max-width:560px}
+.cover-eyebrow{letter-spacing:.5em;font-size:13px;color:var(--ink-soft);margin-bottom:22px;text-indent:.5em}
+.cover h1{font-size:clamp(30px,6vw,44px);font-weight:600;letter-spacing:.18em;margin-bottom:18px}
+.cover-lede{color:var(--ink-soft);font-size:15px;letter-spacing:.06em}
+.flip-deck{position:relative;width:220px;height:150px;margin:0 auto 34px;perspective:1200px}
+.flip-page{
+  position:absolute;inset:0;border-radius:6px 14px 14px 6px;background:var(--card);
+  border:1px solid var(--line);box-shadow:var(--card-shadow);
+  background-image:repeating-linear-gradient(180deg,transparent 0 22px,var(--line-soft) 22px 23px);
+}
+.flip-page.p1{transform:rotateY(-18deg) translateZ(-2px)}
+.flip-page.p2{transform:rotateY(-8deg) translateZ(-1px)}
+.flip-page.p3{animation:pageTurn 2.6s ease-in-out infinite;transform-origin:left center}
+@keyframes pageTurn{
+  0%,100%{transform:rotateY(0deg)}
+  45%{transform:rotateY(-160deg)}
+  60%{transform:rotateY(-160deg)}
+}
+.enter-btn{
+  margin-top:30px;border:1px solid var(--ink);background:transparent;color:var(--ink);
+  padding:14px 34px;letter-spacing:.35em;text-indent:.35em;font-size:15px;border-radius:2px;
+  transition:all .35s;
+}
+.enter-btn:hover{background:var(--ink);color:var(--paper)}
+.cover-foot{margin-top:26px;font-size:12px;color:var(--ink-faint);letter-spacing:.2em}
+
+/* ============ 顶栏 ============ */
+.topbar{
+  position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 22px;background:color-mix(in srgb,var(--paper) 82%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft);
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-mark{width:30px;height:30px}
+.brand-txt b{display:block;font-size:15px;letter-spacing:.12em}
+.brand-txt i{display:block;font-style:normal;font-size:10px;color:var(--ink-faint);letter-spacing:.22em}
+.nav{display:flex;gap:20px;font-size:14px}
+.nav a{text-decoration:none;color:var(--ink-soft);letter-spacing:.1em;transition:color .3s}
+.nav a:hover{color:var(--ink)}
+.theme-btn{
+  border:1px solid var(--line);background:var(--card);color:var(--ink);width:38px;height:38px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s;
+}
+.theme-btn:hover{border-color:var(--accent)}
+@media(max-width:640px){.nav{display:none}}
+
+/* ============ 通用区块 ============ */
+.wrap{max-width:960px;margin:0 auto;padding:0 22px}
+.section{padding:72px 0 24px}
+.eyebrow{font-size:12px;letter-spacing:.4em;color:var(--ink-faint);margin-bottom:12px}
+.section-title{font-size:clamp(24px,4vw,32px);font-weight:600;letter-spacing:.22em;margin-bottom:12px}
+.section-sub{color:var(--ink-soft);font-size:14px;letter-spacing:.05em;max-width:520px}
+.section-head{margin-bottom:34px}
+
+/* 首屏 */
+.hero{position:relative;padding:64px 0 30px}
+.hero-banner{border-radius:14px;overflow:hidden;box-shadow:var(--card-shadow);margin-bottom:30px}
+.hero-banner img{width:100%;height:clamp(200px,34vw,320px);object-fit:cover}
+.hero h2{font-size:clamp(26px,5vw,36px);letter-spacing:.16em;margin-bottom:14px}
+.hero p{color:var(--ink-soft);max-width:560px}
+.hero-quote{margin-top:22px;padding:18px 22px;border-left:2px solid var(--accent-2);color:var(--ink-soft);font-style:italic}
+
+/* ============ 关键词选择 ============ */
+.keyword-board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:640px){.keyword-board{grid-template-columns:repeat(2,1fr)}}
+.kw-card{
+  border:1px solid var(--line);background:var(--card);border-radius:12px;padding:22px 18px;
+  text-align:center;transition:all .3s;position:relative;
+}
+.kw-card .kw-en{display:block;font-size:11px;letter-spacing:.3em;color:var(--ink-faint);margin-bottom:10px}
+.kw-card .kw-cn{font-size:18px;letter-spacing:.18em}
+.kw-card .kw-desc{display:block;margin-top:10px;font-size:12px;color:var(--ink-soft);line-height:1.7}
+.kw-card.picked{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--card))}
+.kw-card.picked::after{content:"已拾";position:absolute;top:10px;right:12px;font-size:11px;color:var(--accent);letter-spacing:.1em}
+.kw-tip{margin-top:18px;font-size:13px;color:var(--ink-faint)}
+
+/* ============ 人物设定（原购物环节） ============ */
+.craft-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.craft-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.craft-grid{grid-template-columns:1fr}}
+.craft-card{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+}
+.craft-card:hover{transform:translateY(-4px);box-shadow:var(--card-shadow)}
+.craft-art{height:120px;display:flex;align-items:center;justify-content:center;font-size:34px;background:var(--book-bg)}
+.craft-body{padding:18px}
+.craft-name{font-size:16px;letter-spacing:.1em;margin-bottom:6px}
+.craft-en{font-size:11px;letter-spacing:.25em;color:var(--ink-faint);margin-bottom:10px}
+.craft-desc{font-size:13px;color:var(--ink-soft);line-height:1.8}
+.craft-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.craft-meta span{font-size:11px;padding:3px 10px;border:1px solid var(--line);border-radius:99px;color:var(--ink-soft)}
+.craft-add{
+  margin-top:14px;width:100%;border:1px solid var(--line);background:transparent;color:var(--ink-soft);
+  padding:9px 0;border-radius:8px;letter-spacing:.2em;font-size:13px;transition:all .3s;
+}
+.craft-add:hover{border-color:var(--accent);color:var(--ink)}
+.craft-add.added{border-color:var(--like);color:var(--like)}
+.craft-art svg{width:44px;height:44px}
+
+/* ============ 个人须知 ============ */
+.idcard{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:28px 26px;margin-bottom:26px;overflow:hidden;
+}
+.idcard::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.idcard-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px}
+.idcard-name{font-size:24px;letter-spacing:.2em}
+.idcard-tags{display:flex;gap:8px}
+.idcard-tags span{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:3px 12px;color:var(--ink-soft)}
+.idcard-now{margin-top:12px;color:var(--ink-soft);font-size:14px}
+.notice-board{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.notice-board{grid-template-columns:1fr}}
+.note{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+.note h3{font-size:16px;letter-spacing:.15em;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.note h3 i{font-style:normal;font-size:11px;color:var(--ink-faint);letter-spacing:.25em}
+.note-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.note-list li{display:flex;gap:10px;font-size:14px;color:var(--ink-soft);line-height:1.8}
+.note-list li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;margin-top:11px}
+.note-like li::before{background:var(--like)}
+.note-hate li::before{background:var(--hate)}
+.note-hate{grid-column:1/-1}
+.note-foot{margin-top:14px;font-size:12px;color:var(--ink-faint)}
+
+/* ============ 相册 ============ */
+.gallery-tabs{display:flex;gap:10px;margin-bottom:26px;flex-wrap:wrap}
+.gtab{border:1px solid var(--line);background:transparent;color:var(--ink-soft);padding:9px 20px;border-radius:99px;font-size:13px;letter-spacing:.15em;transition:all .3s}
+.gtab.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:760px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+.g-item{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--card);aspect-ratio:1;cursor:zoom-in}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.g-item:hover img{transform:scale(1.06)}
+
+/* 灯箱 */
+.lightbox{position:fixed;inset:0;z-index:80;background:var(--overlay);display:none;align-items:center;justify-content:center;padding:24px}
+.lightbox.open{display:flex}
+.lb-card{max-width:min(86vw,640px);border-radius:14px;overflow:hidden;background:var(--card);position:relative}
+.lb-card img{width:100%;max-height:76vh;object-fit:contain}
+.lb-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;border:none;background:var(--overlay);color:#fff;font-size:15px}
+
+/* ============ 留言板 ============ */
+.board{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px}
+.board-form{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.board-form textarea{
+  width:100%;min-height:96px;resize:vertical;border:1px solid var(--line);border-radius:10px;
+  background:var(--paper-2);color:var(--ink);padding:14px;font-family:inherit;font-size:14px;line-height:1.8;
+}
+.board-form textarea:focus{outline:none;border-color:var(--accent)}
+.form-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.form-row input[type="text"]{
+  flex:1;min-width:160px;border:1px solid var(--line);border-radius:10px;background:var(--paper-2);
+  color:var(--ink);padding:11px 14px;font-family:inherit;font-size:14px;
+}
+.form-row input[type="text"]:focus{outline:none;border-color:var(--accent)}
+.img-pick{
+  display:inline-flex;align-items:center;gap:8px;border:1px dashed var(--line);border-radius:10px;
+  padding:10px 16px;font-size:13px;color:var(--ink-soft);
+}
+.img-pick input{display:none}
+.submit-btn{border:none;background:var(--ink);color:var(--paper);padding:11px 26px;border-radius:10px;letter-spacing:.2em;font-size:14px}
+.dissolve-warn{margin-top:16px;font-size:13px;color:var(--hate);letter-spacing:.05em;display:flex;gap:8px;align-items:flex-start}
+.dissolve-warn svg{flex:none;margin-top:4px}
+.notes-wall{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:640px){.notes-wall{grid-template-columns:1fr}}
+.note-card{background:var(--paper-2);border:1px solid var(--line-soft);border-radius:12px;padding:18px;position:relative}
+.note-card .note-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.note-card .note-author{font-size:13px;color:var(--accent);letter-spacing:.1em}
+.note-card .note-time{font-size:11px;color:var(--ink-faint)}
+.note-card .note-text{font-size:14px;color:var(--ink-soft);white-space:pre-wrap;word-break:break-word}
+.note-card .note-img{margin-top:12px;border-radius:10px;overflow:hidden;max-height:220px}
+.note-card .note-img img{width:100%;object-fit:cover}
+.note-empty{color:var(--ink-faint);font-size:13px;text-align:center;padding:30px 0}
+
+/* ============ 船票结尾 ============ */
+.ticket-section{padding:80px 0 60px}
+.ticket-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+@media(max-width:760px){.ticket-wrap{grid-template-columns:1fr}}
+.ticket{
+  position:relative;background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:30px 28px;
+}
+.ticket::before,.ticket::after{
+  content:"";position:absolute;top:50%;width:26px;height:26px;border-radius:50%;background:var(--paper);border:1px solid var(--line);
+}
+.ticket::before{left:-14px;transform:translateY(-50%)}
+.ticket::after{right:-14px;transform:translateY(-50%)}
+.ticket-brand{text-align:center;letter-spacing:.4em;font-size:13px;color:var(--ink-faint);margin-bottom:6px}
+.ticket-title{text-align:center;font-size:22px;letter-spacing:.25em;margin-bottom:20px}
+.ticket-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;color:var(--ink-soft);padding:10px 0;border-bottom:1px dotted var(--line-soft)}
+.ticket-row b{color:var(--ink);font-weight:600;text-align:right;max-width:62%}
+.ticket-note{margin-top:20px;text-align:center;font-size:14px;line-height:2;color:var(--ink-soft)}
+.ticket-no{margin-top:14px;text-align:center;font-size:11px;letter-spacing:.3em;color:var(--ink-faint)}
+.ticket-side img{border-radius:14px;box-shadow:var(--card-shadow)}
+.ticket-actions{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+.cta-btn{border:none;background:var(--ink);color:var(--paper);padding:12px 28px;border-radius:10px;letter-spacing:.2em;font-size:14px}
+.ghost-btn{border:1px solid var(--line);background:transparent;color:var(--ink-soft);padding:12px 24px;border-radius:10px;letter-spacing:.15em;font-size:13px;text-decoration:none}
+
+/* 页脚 */
+.site-foot{padding:40px 22px 50px;text-align:center;color:var(--ink-faint);font-size:12px;letter-spacing:.15em;line-height:2}
+
+/* 灯箱放大与 toast */
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(20px);z-index:90;
+  background:var(--ink);color:var(--paper);padding:11px 22px;border-radius:99px;font-size:13px;
+  letter-spacing:.1em;opacity:0;transition:all .35s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* 入场 */
+.rise{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+.rise.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rise{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ 开场：书页翻动 ============ -->
+<div class="cover" id="cover">
+  <img class="cover-img" src="assets/cover.jpg" alt="书页间的梦境世界">
+  <div class="cover-inner">
+    <p class="cover-eyebrow">A DREAM NOVEL</p>
+    <div class="flip-deck" aria-hidden="true">
+      <div class="flip-page p1"></div>
+      <div class="flip-page p2"></div>
+      <div class="flip-page p3"></div>
+    </div>
+    <h1>欢迎来到小林的世界</h1>
+    <p class="cover-lede">书页正一页页翻过，风从字里行间吹来。<br>伸手推开这卷旧书，便是入梦的入口。</p>
+    <button class="enter-btn" id="enterBtn">翻 页 入 梦</button>
+    <p class="cover-foot">梦境自翻开第一页起，持续至你合上为止</p>
+  </div>
+</div>
+
+<!-- ============ 顶栏 ============ -->
+<header class="topbar">
+  <a class="brand" href="#top">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M8 10h10a4 4 0 0 1 4 4v18a4 4 0 0 0-4-4H8z" fill="var(--accent)"/>
+      <path d="M32 10H22a4 4 0 0 0-4 4v18a4 4 0 0 1 4-4h10z" fill="var(--accent-2)"/>
+    </svg>
+    <span class="brand-txt"><b>小林的世界</b><i>WORLD OF XIAOLIN</i></span>
+  </a>
+  <nav class="nav" id="nav">
+    <a href="#keywords">关键词</a>
+    <a href="#craft">人物</a>
+    <a href="#notice">须知</a>
+    <a href="#gallery">相册</a>
+    <a href="#board">留言</a>
+  </nav>
+  <button class="theme-btn" id="themeBtn" aria-label="切换白日与黑夜">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+    </svg>
+  </button>
+</header>
+
+<main id="top">
+
+  <!-- 首屏 -->
+  <section class="hero wrap">
+    <div class="hero-banner rise"><img src="assets/cover.jpg" alt="云雾与城堡间的翻开书页"></div>
+    <h2 class="rise">一场尚未写完的梦</h2>
+    <p class="rise">这里是小林笔下的小说世界：晨雾尚未散尽，故事的门半掩着。你可以先拾一枚关键词，再看看这些人物是如何被一笔一笔写出来的，最后带走一张属于今夜的船票。</p>
+    <div class="hero-quote rise">"所有的相遇，起初都只是书页上一个尚未落定的词。"</div>
+  </section>
+
+  <!-- 关键词选择 -->
+  <section class="section wrap" id="keywords">
+    <div class="section-head rise">
+      <p class="eyebrow">CHAPTER ONE · 关键词</p>
+      <h2 class="section-title">拾一枚入梦的词</h2>
+      <p class="section-sub">小说人物尚未定名，先为这段相遇挑选一个气质相近的关键词。可多选，选中的词会写在结尾的船票上。</p>
+    </div>
+    <div class="keyword-board" id="keywordBoard"></div>
+    <p class="kw-tip" id="kwTip">尚未拾词，书页还在等你落笔。</p>
+  </section>
+
+  <!-- 人物设定 -->
+  <section class="section wrap" id="craft">
+    <div class="section-head rise">
+      <p class="eyebrow">CHAPTER TWO · 人物</p>
+      <h2 class="section-title">作者为人物添了什么</h2>
+      <p class="section-sub">这些是落笔时被加进角色身上的东西：性格、关照与偏爱。拣几件合意的收入行囊，随船票一同带走。</p>
+    </div>
+    <div class="craft-grid" id="craftGrid"></div>
+  </section>
+
+  <!-- 个人须知 -->
+  <section class="section wrap" id="notice">
+    <div class="section-head rise">
+      <p class="eyebrow">CHAPTER THREE · 须知</p>
+      <h2 class="section-title">读故事前，请先读这一页</h2>
+      <p class="section-sub">性情与界限都写在下面，知情再入局，彼此都不惊扰。</p>
+    </div>
+
+    <div class="idcard rise">
+      <div class="idcard-top">
+        <div class="idcard-name">小 林</div>
+        <div class="idcard-tags"><span>天秤座</span><span>ENTP</span></div>
+      </div>
+      <p class="idcard-now">当前状态：在书页这侧等你，故事随时可以开场。</p>
+    </div>
+
+    <div class="notice-board">
+      <article class="note note-like rise">
+        <h3>喜点 <i>WHAT I LOVE</i></h3>
+        <ol class="note-list" id="likeList"></ol>
+      </article>
+      <article class="note note-hate rise">
+        <h3>雷点 <i>WHAT I MIND</i></h3>
+        <ol class="note-list" id="hateList"></ol>
+        <p class="note-foot">这几条不是脾气，是安稳相处的边界。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 相册 -->
+  <section class="section wrap" id="gallery">
+    <div class="section-head rise">
+      <p class="eyebrow">CHAPTER FOUR · 相册</p>
+      <h2 class="section-title">梦境的陈列室</h2>
+      <p class="section-sub">影像与伴手礼分两柜陈列，只留画面，不附文字。点开可细看。</p>
+    </div>
+    <div class="gallery-tabs rise" id="galleryTabs">
+      <button class="gtab active" data-cat="film">影像</button>
+      <button class="gtab" data-cat="gift">伴手礼</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+  <!-- 留言板 -->
+  <section class="section wrap" id="board">
+    <div class="section-head rise">
+      <p class="eyebrow">CHAPTER FIVE · 留言</p>
+      <h2 class="section-title">在梦的墙壁上留字</h2>
+      <p class="section-sub">写下你今夜来过的痕迹，也可以留下一张画面。留言只保存在这台设备的本地梦境里。</p>
+    </div>
+    <div class="board rise">
+      <form class="board-form" id="boardForm">
+        <textarea id="noteText" placeholder="想说的话，写在这里……" required></textarea>
+        <div class="form-row">
+          <input type="text" id="noteAuthor" placeholder="署名（可留空）" maxlength="20">
+          <label class="img-pick">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 3-3 3 3"/></svg>
+            <span id="imgLabel">附上一张画面</span>
+            <input type="file" id="noteImg" accept="image/*">
+          </label>
+          <button class="submit-btn" type="submit">留 下 痕 迹</button>
+        </div>
+      </form>
+
+      <div class="dissolve-warn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <span>梦境会在关闭后慢慢消散，记得截图发给梦境主人；未被保存的字迹，天亮便不留痕。</span>
+      </div>
+
+      <div class="notes-wall" id="notesWall"></div>
+    </div>
+  </section>
+
+  <!-- 船票结尾 -->
+  <section class="section wrap ticket-section" id="ticket">
+    <div class="ticket-wrap">
+      <div class="ticket rise" id="ticketCard">
+        <div class="ticket-brand">DREAM VOYAGE · 梦 境 航 线</div>
+        <div class="ticket-title">通 往 小 林 的 世 界</div>
+        <div class="ticket-row"><span>入梦关键词</span><b id="ticketKw">尚未拾取</b></div>
+        <div class="ticket-row"><span>作者添入角色之物</span><b id="ticketCraft">尚未拣选</b></div>
+        <div class="ticket-row"><span>航程</span><b>今夜 · 无归期</b></div>
+        <p class="ticket-note">这是一场幻梦，<br>但梦醒时，你手里仍有这张船票。</p>
+        <div class="ticket-no" id="ticketNo">DREAM-0000-0000</div>
+      </div>
+      <div class="ticket-side rise">
+        <img src="assets/gift-ticket.jpg" alt="旧船票与铃兰">
+        <div class="ticket-actions">
+          <button class="cta-btn" id="ticketBtn">印制这张船票</button>
+          <a class="ghost-btn" href="#top">回到开篇</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-foot">
+    <p>WORLD OF XIAOLIN · 欢迎来到小林的世界</p>
+    <p>本站为梦境编织的个人小页，不发货，不收款，只收留夜的人。</p>
+  </footer>
+</main>
+
+<!-- 灯箱 -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-card">
+    <button class="lb-close" id="lbClose" aria-label="关闭">✕</button>
+    <img id="lbImg" src="" alt="梦境画面">
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== 数据 ===== */
+const KEYWORDS = [
+  { cn: "晚潮", en: "LATE TIDE", desc: "退去又涌回的，是没说出口的牵挂。" },
+  { cn: "旧信", en: "OLD LETTER", desc: "字里留着寄出那年的月色与温度。" },
+  { cn: "雾港", en: "MISTY PORT", desc: "船还未靠岸，故事先在雾里生长。" },
+  { cn: "星屑", en: "STAR DUST", desc: "坠落时碎成满地的细小光亮。" },
+  { cn: "白帆", en: "WHITE SAIL", desc: "向着不确定的远方，仍肯扬起。" },
+  { cn: "长夜", en: "LONG NIGHT", desc: "安静地陪着，等天亮也等结局。" }
+];
+
+const CRAFTS = [
+  { name: "温软的语气", en: "WARM TONE", color: "#7c93b8", desc: "嘴甜，会哄人，情绪始终放得平缓；旁人先急了，这里仍是温的。", meta: ["心态舒展", "善于宽慰"] },
+  { name: "护短的立场", en: "LOYAL SIDE", color: "#b8a6d6", desc: "受了委屈便第一时间站回去，先撑腰，再慢慢讲道理。", meta: ["当即回应", "事后安抚"] },
+  { name: "慷慨的退让", en: "GENEROSITY", color: "#d8b98a", desc: "愿意让蓝、让龙，陪你把牌子一点点刷上来，不吝付出。", meta: ["主动让位", "并肩上分"] },
+  { name: "留心的目光", en: "ATTENTIVE EYE", color: "#6fa8a0", desc: "留意你的动向，在合适的时候轻声提示下一步，只提醒，不指挥。", meta: ["观察细节", "语气克制"] },
+  { name: "真诚的谢礼", en: "SINCERE THANKS", color: "#c98a9e", desc: "道谢与回礼都落在实处，不走套路，不套模板。", meta: ["心意具体", "拒绝敷衍"] },
+  { name: "利落的身影", en: "SUAVE HERO", color: "#8a7fb8", desc: "同行时偏爱拿得出场面的英雄，镜、澜、公孙离一类，操作利落好看。", meta: ["镜", "澜", "公孙离"] }
+];
+
+const LIKES = [
+  "温青一类，嘴甜会哄人，且心态始终平稳。",
+  "我被骂了，立刻帮我骂回去，再回头把我安慰好。",
+  "会让蓝、让龙，陪着我把牌子慢慢刷上去。",
+  "留意我的动向，用不指挥的语气告诉我下一步该怎么做。",
+  "谢礼真诚，不套公式，不走场面话。",
+  "一起玩的时候愿意玩帅帅的英雄，例如镜、澜、公孙离等。"
+];
+
+const HATES = [
+  "称呼里带“板”，或用单字叫“姐”。",
+  "杀熟、对我不上心、混单，甚至记混老板。",
+  "谢礼敷衍，潦草应付。",
+  "死了就甩锅，整局里和我没有互动。",
+  "迟到；预约单还要我挤出时间给你借号。"
+];
+
+const GALLERY = [
+  { cat: "film", src: "assets/mem-river.jpg", title: "雾河纸船" },
+  { cat: "film", src: "assets/mem-window.jpg", title: "夜窗圆月" },
+  { cat: "film", src: "assets/mem-field.jpg", title: "黄昏花野" },
+  { cat: "film", src: "assets/mem-station.jpg", title: "暮色月台" },
+  { cat: "gift", src: "assets/gift-letter.jpg", title: "未写完的信" },
+  { cat: "gift", src: "assets/gift-star.jpg", title: "装星的瓶子" },
+  { cat: "gift", src: "assets/gift-book.jpg", title: "旧书与怀表" },
+  { cat: "gift", src: "assets/gift-ticket.jpg", title: "船票与铃兰" }
+];
+
+/* ===== 状态 ===== */
+const state = {
+  pickedKw: new Set(),
+  pickedCraft: new Set(),
+  theme: localStorage.getItem("xl-theme") || "day"
+};
+
+/* ===== 工具 ===== */
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+let toastTimer;
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("show"), 2200);
+}
+
+/* ===== 昼夜主题 ===== */
+function applyTheme(){
+  document.documentElement.dataset.theme = state.theme === "night" ? "night" : "day";
+  localStorage.setItem("xl-theme", state.theme);
+}
+$("#themeBtn").addEventListener("click", ()=>{
+  state.theme = state.theme === "night" ? "day" : "night";
+  applyTheme();
+  toast(state.theme === "night" ? "夜色漫上来了" : "天光重新铺开");
+});
+applyTheme();
+
+/* ===== 开场翻页 ===== */
+$("#enterBtn").addEventListener("click", ()=>{
+  $("#cover").classList.add("hide");
+  toast("书页翻过，你已入梦");
+});
+
+/* ===== 关键词渲染 ===== */
+function renderKeywords(){
+  const board = $("#keywordBoard"); board.innerHTML = "";
+  KEYWORDS.forEach((k,i)=>{
+    const el = document.createElement("button");
+    el.className = "kw-card" + (state.pickedKw.has(i) ? " picked" : "");
+    el.type = "button";
+    el.innerHTML = `<span class="kw-en">${k.en}</span><span class="kw-cn">${k.cn}</span><span class="kw-desc">${k.desc}</span>`;
+    el.addEventListener("click", ()=>{
+      state.pickedKw.has(i) ? state.pickedKw.delete(i) : state.pickedKw.add(i);
+      renderKeywords(); syncTicket();
+    });
+    board.appendChild(el);
+  });
+  const tip = $("#kwTip");
+  tip.textContent = state.pickedKw.size
+    ? `已拾起 ${state.pickedKw.size} 枚词：${[...state.pickedKw].map(i=>KEYWORDS[i].cn).join("、")}`
+    : "尚未拾词，书页还在等你落笔。";
+}
+
+/* ===== 人物设定渲染 ===== */
+function renderCraft(){
+  const grid = $("#craftGrid"); grid.innerHTML = "";
+  CRAFTS.forEach((c,i)=>{
+    const el = document.createElement("article");
+    el.className = "craft-card";
+    const added = state.pickedCraft.has(i);
+    el.innerHTML = `
+      <div class="craft-art" style="color:${c.color}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l2.2 4.9 5.3.6-3.9 3.6 1 5.3-4.6-2.6-4.6 2.6 1-5.3L4.5 8.5l5.3-.6z"/>
+        </svg>
+      </div>
+      <div class="craft-body">
+        <div class="craft-name">${c.name}</div>
+        <div class="craft-en">${c.en}</div>
+        <p class="craft-desc">${c.desc}</p>
+        <div class="craft-meta">${c.meta.map(m=>`<span>${m}</span>`).join("")}</div>
+        <button class="craft-add ${added?"added":""}" type="button">${added ? "已收入行囊" : "收入行囊"}</button>
+      </div>`;
+    el.querySelector(".craft-add").addEventListener("click", ()=>{
+      state.pickedCraft.has(i) ? state.pickedCraft.delete(i) : state.pickedCraft.add(i);
+      renderCraft(); syncTicket();
+    });
+    grid.appendChild(el);
+  });
+}
+
+/* ===== 须知渲染 ===== */
+function renderNotice(){
+  $("#likeList").innerHTML = LIKES.map(t=>`<li><span>${t}</span></li>`).join("");
+  $("#hateList").innerHTML = HATES.map(t=>`<li><span>${t}</span></li>`).join("");
+}
+
+/* ===== 相册 ===== */
+let galleryCat = "film";
+function renderGallery(){
+  const grid = $("#galleryGrid"); grid.innerHTML = "";
+  GALLERY.filter(g=>g.cat===galleryCat).forEach(g=>{
+    const el = document.createElement("div");
+    el.className = "g-item";
+    el.innerHTML = `<img src="${g.src}" alt="${g.title}" loading="lazy">`;
+    el.addEventListener("click", ()=>{
+      $("#lbImg").src = g.src; $("#lbImg").alt = g.title;
+      $("#lightbox").classList.add("open");
+    });
+    grid.appendChild(el);
+  });
+}
+$$("#galleryTabs .gtab").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    $$("#galleryTabs .gtab").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active"); galleryCat = btn.dataset.cat; renderGallery();
+  });
+});
+$("#lbClose").addEventListener("click", ()=>$("#lightbox").classList.remove("open"));
+$("#lightbox").addEventListener("click", e=>{ if(e.target===$("#lightbox")) $("#lightbox").classList.remove("open"); });
+
+/* ===== 留言板（本地 localStorage，图片转 DataURL） ===== */
+const NOTES_KEY = "xl-dream-notes";
+function loadNotes(){
+  try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || []; }
+  catch(e){ return []; }
+}
+function saveNotes(list){ localStorage.setItem(NOTES_KEY, JSON.stringify(list)); }
+
+function renderNotes(){
+  const wall = $("#notesWall"); wall.innerHTML = "";
+  const notes = loadNotes();
+  if(!notes.length){
+    wall.innerHTML = `<p class="note-empty">这里还空着，等第一个入梦的人留下字迹。</p>`;
+    return;
+  }
+  notes.slice().reverse().forEach(n=>{
+    const card = document.createElement("div");
+    card.className = "note-card";
+    card.innerHTML = `
+      <div class="note-head">
+        <span class="note-author">${escapeHtml(n.author) || "无名梦者"}</span>
+        <span class="note-time">${n.time}</span>
+      </div>
+      <p class="note-text">${escapeHtml(n.text)}</p>
+      ${n.img ? `<div class="note-img"><img src="${n.img}" alt="留言附图"></div>` : ""}`;
+    wall.appendChild(card);
+  });
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+$("#noteImg").addEventListener("change", function(){
+  const f = this.files[0];
+  $("#imgLabel").textContent = f ? f.name : "附上一张画面";
+});
+
+$("#boardForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  e.stopPropagation();
+  const text = $("#noteText").value.trim();
+  if(!text){ toast("先写一句话再留下吧"); return; }
+  const author = $("#noteAuthor").value.trim();
+  const file = $("#noteImg").files[0];
+  const push = (img)=>{
+    const notes = loadNotes();
+    const now = new Date();
+    const time = `${now.getMonth()+1}月${now.getDate()}日 ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+    notes.push({ text, author, img: img || "", time });
+    saveNotes(notes);
+    renderNotes();
+    $("#boardForm").reset(); $("#imgLabel").textContent = "附上一张画面";
+    toast("痕迹已留在梦里，记得截图保存");
+  };
+  if(file && file.size < 2.5*1024*1024){
+    const reader = new FileReader();
+    reader.onload = ()=>push(reader.result);
+    reader.onerror = ()=>{ toast("画面读取失败，先不留图"); push(""); };
+    reader.readAsDataURL(file);
+  } else {
+    if(file) toast("图片偏大，本次只留文字");
+    push("");
+  }
+});
+
+/* ===== 船票同步 ===== */
+function syncTicket(){
+  const kws = [...state.pickedKw].map(i=>KEYWORDS[i].cn);
+  const crafts = [...state.pickedCraft].map(i=>CRAFTS[i].name);
+  $("#ticketKw").textContent = kws.length ? kws.join("、") : "尚未拾取";
+  $("#ticketCraft").textContent = crafts.length ? crafts.join("、") : "尚未拣选";
+}
+$("#ticketBtn").addEventListener("click", ()=>{
+  const no = "DREAM-" + String(Math.floor(1000+Math.random()*9000)) + "-" + String(Math.floor(100+Math.random()*900));
+  $("#ticketNo").textContent = no;
+  toast("船票已印妥，收好它");
+});
+
+/* ===== 入场动效 ===== */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+},{ threshold:.12 });
+$$(".rise").forEach(el=>io.observe(el));
+
+/* ===== 初始化 ===== */
+renderKeywords(); renderCraft(); renderNotice(); renderGallery(); renderNotes(); syncTicket();
+</script>
+</body>
+</html>
