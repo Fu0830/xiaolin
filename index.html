@@ -215,6 +215,12 @@ button{font-family:inherit;cursor:pointer}
 .g-item{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--card);aspect-ratio:1;cursor:zoom-in}
 .g-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .g-item:hover img{transform:scale(1.06)}
+/* 混合比例：瀑布式陈列，不裁掉海报文字 */
+.gallery-grid{display:block;columns:2;column-gap:14px}
+.gallery-grid[data-count="3"]{columns:2}
+@media(max-width:760px){.gallery-grid,.gallery-grid[data-count="3"]{columns:2}}
+.g-item{margin:0 0 14px;aspect-ratio:auto;break-inside:avoid;page-break-inside:avoid}
+.g-item img{height:auto;object-fit:initial;display:block}
 
 /* 灯箱 */
 .lightbox{position:fixed;inset:0;z-index:80;background:var(--overlay);display:none;align-items:center;justify-content:center;padding:24px}
@@ -755,13 +761,16 @@ const HATES = [
 ];
 
 const GALLERY = [
-  { cat: "film", src: "./mem-river.jpg", title: "雾河纸船" },
-  { cat: "film", src: "./mem-window.jpg", title: "夜窗圆月" },
-  { cat: "film", src: "./mem-field.jpg", title: "黄昏花野" },
-  { cat: "film", src: "./mem-station.jpg", title: "暮色月台" },
-  { cat: "gift", src: "./gift-letter.jpg", title: "未写完的信" },
-  { cat: "gift", src: "./gift-star.jpg", title: "装星的瓶子" },
-  { cat: "gift", src: "./gift-book.jpg", title: "旧书与怀表" }
+  { cat: "film", src: "./film-rain.jpg", title: "潮湿雨季" },
+  { cat: "film", src: "./film-standee.jpg", title: "限定立牌" },
+  { cat: "gift", src: "./gift-cat-tea.jpg", title: "花园茶话会" },
+  { cat: "gift", src: "./gift-cat-recipe.jpg", title: "猫猫食谱" },
+  { cat: "gift", src: "./gift-blue-standee.jpg", title: "柔软礼物单" },
+  { cat: "gift", src: "./gift-beach.jpg", title: "夏日海滩" },
+  { cat: "gift", src: "./gift-tea-rose.jpg", title: "玫瑰茶话会" },
+  { cat: "gift", src: "./gift-cafe.jpg", title: "午后咖啡" },
+  { cat: "gift", src: "./gift-kitty.jpg", title: "粉色礼物单" },
+  { cat: "gift", src: "./gift-carousel.jpg", title: "星夜旋转木马" }
 ];
 
 /* ===== 状态 ===== */
