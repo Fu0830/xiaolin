@@ -45,12 +45,28 @@ button{font-family:inherit;cursor:pointer}
 .cover{
   position:fixed; inset:0; z-index:100; display:flex; flex-direction:column;
   align-items:center; justify-content:center; text-align:center; padding:24px;
-  background:var(--book-bg); overflow:hidden; transition:opacity .9s ease, visibility .9s;
+  background:radial-gradient(150% 115% at 50% 118%,#1a3d6d 0%,#0f2549 32%,#08162c 62%,#030711 100%);
+  overflow:hidden; transition:opacity .9s ease, visibility .9s;
+}
+.cover::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(58% 44% at 24% 26%,rgba(96,140,224,.30),transparent 70%),
+    radial-gradient(52% 38% at 76% 66%,rgba(132,104,206,.26),transparent 72%),
+    radial-gradient(72% 52% at 50% 4%,rgba(64,112,190,.20),transparent 76%);
+  filter:blur(8px);
 }
 .cover.hide{opacity:0;visibility:hidden;pointer-events:none}
 .cover-stars{position:absolute;inset:0;width:100%;height:100%;display:block}
-.cover::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 42%,transparent 40%,color-mix(in srgb,var(--paper) 40%,transparent))}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(122% 88% at 50% 44%,transparent 36%,rgba(3,7,16,.72) 100%)}
 .cover-inner{position:relative;z-index:2;max-width:560px}
+.cover-eyebrow{color:#9fb8dc}
+.cover h1{color:#f2f6ff;text-shadow:0 0 40px rgba(150,190,255,.35)}
+.cover-lede{color:#b7c8e3}
+.cover-foot{color:#7e93b3}
+.cover .flip-deck .flip-page{background:#eef4ff;border-color:rgba(255,255,255,.45);box-shadow:0 18px 40px rgba(2,8,20,.6);
+  background-image:repeating-linear-gradient(180deg,transparent 0 22px,rgba(150,178,220,.35) 22px 23px)}
+.cover .flip-deck{filter:drop-shadow(0 0 26px rgba(120,170,255,.28))}
 .cover-eyebrow{letter-spacing:.5em;font-size:13px;color:var(--ink-soft);margin-bottom:22px;text-indent:.5em}
 .cover h1{font-size:clamp(30px,6vw,44px);font-weight:600;letter-spacing:.18em;margin-bottom:18px}
 .cover-lede{color:var(--ink-soft);font-size:15px;letter-spacing:.06em}
@@ -70,11 +86,16 @@ button{font-family:inherit;cursor:pointer}
   60%{transform:rotateY(-160deg)}
 }
 .enter-btn{
-  margin-top:30px;border:1px solid var(--ink);background:transparent;color:var(--ink);
-  padding:14px 34px;letter-spacing:.35em;text-indent:.35em;font-size:15px;border-radius:2px;
-  transition:all .35s;
+  margin-top:30px;border:1px solid rgba(168,198,244,.75);background:rgba(96,142,214,.12);
+  color:#e8f0ff;padding:14px 36px;letter-spacing:.35em;text-indent:.35em;font-size:15px;border-radius:2px;
+  backdrop-filter:blur(6px);transition:all .35s;position:relative;overflow:hidden;
+  box-shadow:0 0 0 rgba(120,170,255,0),inset 0 0 24px rgba(120,170,255,.10);
 }
-.enter-btn:hover{background:var(--ink);color:var(--paper)}
+.enter-btn:hover{
+  border-color:#cfe2ff;background:rgba(130,175,255,.24);color:#ffffff;
+  box-shadow:0 0 28px rgba(120,170,255,.45),inset 0 0 30px rgba(150,190,255,.22);
+}
+.enter-btn:active{transform:translateY(1px)}
 .cover-foot{margin-top:26px;font-size:12px;color:var(--ink-faint);letter-spacing:.2em}
 
 /* ============ 顶栏 ============ */
@@ -291,6 +312,54 @@ button{font-family:inherit;cursor:pointer}
 .cta-btn{border:none;background:var(--ink);color:var(--paper);padding:12px 28px;border-radius:10px;letter-spacing:.2em;font-size:14px}
 .ghost-btn{border:1px solid var(--line);background:transparent;color:var(--ink-soft);padding:12px 24px;border-radius:10px;letter-spacing:.15em;font-size:13px;text-decoration:none}
 
+/* 留言删除 */
+.note-card .note-del{
+  position:absolute;top:10px;right:10px;border:1px solid var(--line-soft);background:var(--card);
+  color:var(--ink-faint);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  font-size:13px;line-height:1;opacity:.75;transition:all .25s;
+}
+.note-card .note-del:hover{opacity:1;color:var(--hate);border-color:var(--hate)}
+.note-card .note-head{padding-right:26px}
+
+/* ============ 旧信匣 ============ */
+.letter-stack{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:6px}
+@media(max-width:560px){.letter-stack{gap:10px}}
+.letter-card{
+  position:relative;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--paper-2);
+  padding:22px 18px 18px;cursor:pointer;transition:transform .3s,box-shadow .3s,border-color .3s;
+  box-shadow:0 6px 18px rgba(60,80,110,.07);overflow:hidden;
+}
+.letter-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 14px 30px rgba(60,80,110,.14)}
+.letter-card::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:76px;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(184,166,214,.07));
+  border-top:1px dashed var(--line-soft);
+}
+.letter-to{font-size:13px;color:var(--ink);letter-spacing:.06em;margin-bottom:8px}
+.letter-date{font-size:11px;color:var(--ink-faint);letter-spacing:.16em;margin-bottom:12px}
+.letter-preview{font-size:12.5px;line-height:1.9;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.letter-open{display:block;margin-top:14px;font-size:11px;letter-spacing:.24em;color:var(--accent)}
+
+.letterbox{position:fixed;inset:0;z-index:95;display:none;align-items:center;justify-content:center;padding:24px}
+.letterbox.open{display:flex}
+.letterbox-mask{position:absolute;inset:0;background:rgba(10,20,36,.72);backdrop-filter:blur(3px)}
+.letterbox-paper{
+  position:relative;z-index:2;width:min(560px,100%);max-height:82vh;overflow:auto;
+  background:linear-gradient(180deg,var(--paper-2),var(--card));
+  border:1px solid var(--line);border-radius:14px;padding:34px clamp(22px,5vw,40px);
+  box-shadow:0 30px 60px rgba(8,18,34,.4);animation:letterIn .35s ease both;
+}
+@keyframes letterIn{from{opacity:0;transform:translateY(14px) rotate(-.6deg)}to{opacity:1;transform:none}}
+.lb-close{position:absolute;top:12px;right:14px;border:none;background:transparent;color:var(--ink-faint);font-size:20px;line-height:1}
+.lb-date{font-size:11px;color:var(--ink-faint);letter-spacing:.2em;text-align:center;margin-bottom:20px}
+.lb-to{font-size:15px;color:var(--ink);letter-spacing:.1em;margin-bottom:16px}
+.lb-body p{font-size:14px;line-height:2.1;color:var(--ink-soft);margin-bottom:12px;text-indent:2em}
+.lb-sign{text-align:right;font-size:13px;color:var(--ink);letter-spacing:.16em;margin-top:18px}
+.lb-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:24px;padding-top:16px;border-top:1px dashed var(--line-soft)}
+.lb-nav button{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);font-size:12px;padding:8px 16px;border-radius:99px;letter-spacing:.1em}
+.lb-nav button:hover{border-color:var(--accent);color:var(--ink)}
+.lb-idx{font-size:11px;color:var(--ink-faint);letter-spacing:.2em}
+
 /* ============ 行囊（购物车） ============ */
 .cart-btn{
   position:fixed;right:18px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:70;
@@ -400,6 +469,7 @@ button{font-family:inherit;cursor:pointer}
     <a href="#craft">人物</a>
     <a href="#notice">须知</a>
     <a href="#gallery">相册</a>
+    <a href="#letters">旧信</a>
     <a href="#board">留言</a>
   </nav>
   <div class="top-actions">
@@ -501,10 +571,20 @@ button{font-family:inherit;cursor:pointer}
     <div class="gallery-grid" id="galleryGrid"></div>
   </section>
 
+  <!-- 旧信匣 -->
+  <section class="section wrap" id="letters">
+    <div class="section-head rise">
+      <p class="eyebrow">CHAPTER FIVE · 旧信</p>
+      <h2 class="section-title">信匣里，压着几封没有寄出的信</h2>
+      <p class="section-sub">写给入梦的人，也写给小说里那些还没被命名的人。抽一封，慢慢翻开。</p>
+    </div>
+    <div class="letter-stack rise" id="letterStack"></div>
+  </section>
+
   <!-- 留言板 -->
   <section class="section wrap" id="board">
     <div class="section-head rise">
-      <p class="eyebrow">CHAPTER FIVE · 留言</p>
+      <p class="eyebrow">CHAPTER SIX · 留言</p>
       <h2 class="section-title">在梦的墙壁上留字</h2>
       <p class="section-sub">写下你今夜来过的痕迹，也可以留下一张画面。留言只保存在这台设备的本地梦境里。</p>
     </div>
@@ -534,7 +614,7 @@ button{font-family:inherit;cursor:pointer}
   <!-- 船票结尾 -->
   <section class="section wrap ticket-section" id="ticket">
     <div class="section-head rise">
-      <p class="eyebrow">CHAPTER SIX · 票据</p>
+      <p class="eyebrow">CHAPTER SEVEN · 票据</p>
       <h2 class="section-title">在梦境码头，印一张船票</h2>
       <p class="section-sub">把拾起的词、与作者添进角色身上的东西一并打上去。这一张只印一次，收好。</p>
     </div>
@@ -598,6 +678,23 @@ button{font-family:inherit;cursor:pointer}
       <button class="cta-btn" id="cartGo">去 印 船 票</button>
     </div>
   </div>
+</div>
+
+<!-- 旧信阅读 -->
+<div class="letterbox" id="letterbox">
+  <div class="letterbox-mask" id="letterMask"></div>
+  <article class="letterbox-paper">
+    <button class="lb-close" id="letterClose" aria-label="合上信纸">✕</button>
+    <p class="lb-date" id="lbDate"></p>
+    <p class="lb-to" id="lbTo"></p>
+    <div class="lb-body" id="lbBody"></div>
+    <p class="lb-sign" id="lbSign"></p>
+    <div class="lb-nav">
+      <button id="lbPrev">‹ 前一封</button>
+      <span class="lb-idx" id="lbIdx"></span>
+      <button id="lbNext">后一封 ›</button>
+    </div>
+  </article>
 </div>
 
 <!-- 灯箱 -->
@@ -793,6 +890,93 @@ function loadNotes(){
 }
 function saveNotes(list){ localStorage.setItem(NOTES_KEY, JSON.stringify(list)); }
 
+const LETTERS = [
+  {
+    to: "给还没有名字的那个人",
+    date: "霜降 · 第一页",
+    sign: "小林",
+    body: [
+      "写这封信的时候，你还不存在。只有一支笔悬在半空，等一句还没落下的话。后来我在纸上添了温软的语气，添了护短的立场，你就慢慢有了轮廓。",
+      "人物的诞生从来不是添加，而是割舍。我删掉了许多漂亮的句子，留下几处笨拙的停顿，因为那些停顿更像一个活人。",
+      "你若读到这里，便已替我把这页翻过去了。下一页还没写，风已经先到了。"
+    ]
+  },
+  {
+    to: "给深夜还亮着一盏灯的人",
+    date: "冬至 · 第二页",
+    sign: "小林",
+    body: [
+      "这封信写得迟。夜里写到一半，笔尖停在纸上，听见窗外有车驶过，像谁在很远的路上替我翻了一页书。",
+      "我想告诉你的只有一件小事：把灯调暗一点，字才会浮起来。人也是这样，太亮的时候，谁也看不见心里的那点潮。",
+      "若你也醒着，就当我们正共用同一盏灯。等你合上书，我会替你把那页折好。"
+    ]
+  },
+  {
+    to: "给梦醒后仍握着船票的人",
+    date: "小寒 · 第三页",
+    sign: "小林",
+    body: [
+      "船票是梦的凭据，不是承诺。它只能证明你确实来过：你拾过一枚词，你替一个人挑过他要带走的性情。",
+      "梦醒的时候，码头会散，雾会退，声音会一点点变轻。但票根上的字不会，它会一直印在那里，像一枚很浅的印章。",
+      "请把它收在书里。哪一夜又想回来，就翻开那一页，我会在字里等你。"
+    ]
+  },
+  {
+    to: "给写信给自己的你",
+    date: "立春 · 第四页",
+    sign: "小林",
+    body: [
+      "留言板上那些字，我都读过。有人写「今晚很累」，有人只留了一个句号，句号也是话，我认得。",
+      "只是这里的字迹留不住：它们住在你这一台设备的梦里，风一吹便散。想让我真的看到，就把它截下来，投进有我的那个窗口。",
+      "写信这件事本身不是为了被答复，是为了让某个夜晚有据可查。你已经做到了。"
+    ]
+  }
+];
+
+let letterAt = 0;
+function renderLetters(){
+  const stack = $("#letterStack"); if(!stack) return;
+  stack.innerHTML = LETTERS.map((l,i)=>`
+    <article class="letter-card" data-letter="${i}" tabindex="0" role="button" aria-label="翻开${l.to}">
+      <p class="letter-to">${escapeHtml(l.to)}</p>
+      <p class="letter-date">${escapeHtml(l.date)}</p>
+      <p class="letter-preview">${escapeHtml(l.body[0])}</p>
+      <span class="letter-open">展 信</span>
+    </article>`).join("");
+}
+function paintLetter(){
+  const l = LETTERS[letterAt];
+  $("#lbDate").textContent = l.date;
+  $("#lbTo").textContent = l.to;
+  $("#lbBody").innerHTML = l.body.map(t=>`<p>${escapeHtml(t)}</p>`).join("");
+  $("#lbSign").textContent = `—— ${l.sign}`;
+  $("#lbIdx").textContent = `${letterAt+1} / ${LETTERS.length}`;
+}
+function openLetter(i){
+  letterAt = i; paintLetter();
+  $("#letterbox").classList.add("open");
+}
+function closeLetter(){ $("#letterbox").classList.remove("open"); }
+function stepLetter(d){ letterAt = (letterAt + d + LETTERS.length) % LETTERS.length; paintLetter(); }
+$("#letterStack").addEventListener("click", e=>{
+  const card = e.target.closest("[data-letter]"); if(!card) return;
+  openLetter(Number(card.dataset.letter));
+});
+$("#letterStack").addEventListener("keydown", e=>{
+  const card = e.target.closest("[data-letter]");
+  if(card && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); openLetter(Number(card.dataset.letter)); }
+});
+$("#letterClose").addEventListener("click", closeLetter);
+$("#letterMask").addEventListener("click", closeLetter);
+$("#lbPrev").addEventListener("click", ()=>stepLetter(-1));
+$("#lbNext").addEventListener("click", ()=>stepLetter(1));
+document.addEventListener("keydown", e=>{
+  if(!$("#letterbox").classList.contains("open")) return;
+  if(e.key === "Escape") closeLetter();
+  if(e.key === "ArrowLeft") stepLetter(-1);
+  if(e.key === "ArrowRight") stepLetter(1);
+});
+
 function renderNotes(){
   const wall = $("#notesWall"); wall.innerHTML = "";
   const notes = loadNotes();
@@ -800,10 +984,11 @@ function renderNotes(){
     wall.innerHTML = `<p class="note-empty">这里还空着，等第一个入梦的人留下字迹。</p>`;
     return;
   }
-  notes.slice().reverse().forEach(n=>{
+  notes.map((n,idx)=>({n, idx})).reverse().forEach(({n,idx})=>{
     const card = document.createElement("div");
     card.className = "note-card";
     card.innerHTML = `
+      <button class="note-del" data-del="${idx}" aria-label="撕下这张信纸">✕</button>
       <div class="note-head">
         <span class="note-author">${escapeHtml(n.author) || "无名梦者"}</span>
         <span class="note-time">${n.time}</span>
@@ -816,6 +1001,17 @@ function renderNotes(){
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
+
+$("#notesWall").addEventListener("click", e=>{
+  const btn = e.target.closest("[data-del]");
+  if(!btn) return;
+  const idx = Number(btn.dataset.del);
+  const notes = loadNotes();
+  notes.splice(idx, 1);
+  saveNotes(notes);
+  renderNotes();
+  toast("这一页，已从梦里撕下");
+});
 
 $("#noteImg").addEventListener("change", function(){
   const f = this.files[0];
@@ -901,49 +1097,62 @@ function stopStars(){ if(starRaf) cancelAnimationFrame(starRaf); starRaf = 0; }
   const ctx = cv.getContext("2d");
   const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
   let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), dots = [];
-  function palette(){
-    return document.documentElement.dataset.theme === "night"
-      ? { c: "255,255,255", glow: "rgba(255,255,255,.55)" }
-      : { c: "124,147,184", glow: "rgba(124,147,184,.35)" };
-  }
+  let meteor = { x: 0, y: 0, len: 0, life: 0, wait: 3.5 };
   function resize(){
     w = cv.clientWidth || window.innerWidth;
     h = cv.clientHeight || window.innerHeight;
     cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.round(Math.min(150, Math.max(56, (w * h) / 12000)));
+    const n = Math.round(Math.min(230, Math.max(90, (w * h) / 7200)));
     dots = Array.from({ length: n }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      r: Math.random() * 1.5 + 0.4,
+      r: Math.random() * 1.6 + 0.35,
       a: Math.random() * Math.PI * 2,
-      sp: Math.random() * 0.7 + 0.3,
-      v: Math.random() * 0.12 + 0.03
+      sp: Math.random() * 0.8 + 0.35,
+      v: Math.random() * 0.11 + 0.02,
+      hue: Math.random() < 0.18 ? "196,214,255" : "232,240,255"
     }));
   }
   function frame(now){
-    const { c, glow } = palette();
     const t = now / 1000;
     ctx.clearRect(0, 0, w, h);
     dots.forEach(d => {
       const y = (d.y + t * d.v) % (h + 12);
-      const alpha = 0.22 + 0.62 * Math.abs(Math.sin(t * d.sp + d.a));
+      const alpha = 0.28 + 0.62 * Math.abs(Math.sin(t * d.sp + d.a));
       ctx.beginPath(); ctx.arc(d.x, y, d.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${c},${alpha.toFixed(3)})`;
+      ctx.fillStyle = `rgba(${d.hue},${alpha.toFixed(3)})`;
       ctx.fill();
-      if(d.r > 1.5){
-        ctx.beginPath(); ctx.arc(d.x, y, d.r * 3.2, 0, Math.PI * 2);
-        ctx.fillStyle = glow.replace(/[\d.]+\)$/, (alpha * 0.12).toFixed(3) + ")");
-        ctx.fill();
+      if(d.r > 1.25){
+        const g = ctx.createRadialGradient(d.x, y, 0, d.x, y, d.r * 7);
+        g.addColorStop(0, `rgba(150,190,255,${(alpha * 0.22).toFixed(3)})`);
+        g.addColorStop(1, "rgba(120,170,255,0)");
+        ctx.beginPath(); ctx.arc(d.x, y, d.r * 7, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
       }
     });
+    // 偶有流星
+    meteor.wait -= 1 / 60;
+    if(meteor.life > 0){
+      meteor.life -= 1 / 60;
+      const prog = 1 - meteor.life / 0.9;
+      const headX = meteor.x + meteor.len * prog, headY = meteor.y + meteor.len * 0.42 * prog;
+      const grad = ctx.createLinearGradient(headX - meteor.len * 0.5, headY - meteor.len * 0.22, headX, headY);
+      grad.addColorStop(0, "rgba(170,205,255,0)");
+      grad.addColorStop(1, `rgba(226,238,255,${(0.75 * Math.min(1, meteor.life / 0.5)).toFixed(3)})`);
+      ctx.strokeStyle = grad; ctx.lineWidth = 1.6; ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(headX - meteor.len * 0.5, headY - meteor.len * 0.22);
+      ctx.lineTo(headX, headY); ctx.stroke();
+    } else if(meteor.wait <= 0){
+      meteor = { x: Math.random() * w * 0.6, y: Math.random() * h * 0.5, len: 160 + Math.random() * 190, life: 0.9, wait: 6 + Math.random() * 8 };
+    }
     starRaf = requestAnimationFrame(frame);
   }
   resize();
   window.addEventListener("resize", () => { resize(); if(reduce){ ctx.clearRect(0,0,w,h); } });
   if(reduce){
-    const { c } = palette(); ctx.clearRect(0, 0, w, h);
-    dots.forEach(d => { ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${c},.6)`; ctx.fill(); });
+    ctx.clearRect(0, 0, w, h);
+    dots.forEach(d => { ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fillStyle = "rgba(226,238,255,.62)"; ctx.fill(); });
     starRaf = 0;
   } else {
     starRaf = requestAnimationFrame(frame);
@@ -1065,7 +1274,7 @@ const io = new IntersectionObserver(entries=>{
 $$(".rise").forEach(el=>io.observe(el));
 
 /* ===== 初始化 ===== */
-renderKeywords(); renderCraft(); renderNotice(); renderGallery(); renderNotes(); renderCart(); syncTicket();
+renderKeywords(); renderCraft(); renderNotice(); renderGallery(); renderLetters(); renderNotes(); renderCart(); syncTicket();
 </script>
 </body>
 </html>
